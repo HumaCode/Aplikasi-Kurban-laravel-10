@@ -1,0 +1,102 @@
+@extends('layouts.app_adminkit')
+
+<style>
+    .lingkaran {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+</style>
+
+@section('content')
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>{{ strtoupper($subtitle) }}</h2>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+
+                        <h3>Tahun Kurban {{ $model->tahun_hijriah . '/' . $model->tahun_masehi }}</h3>
+                        <h6>&nbsp; <i class="align-middle" data-feather="calendar"></i>Tanggal Akhir Pendaftaran :
+                            <strong>{{ $model->tanggal_akhir_pendaftaran->format('d-m-Y') }}</strong>
+                        </h6>
+                        <h6>&nbsp; <i class="align-middle" data-feather="user"></i>Created By :
+                            <strong>{{ $model->createdBy->name }}</strong>
+                        </h6>
+                        <p>{!! $model->konten !!}</p>
+                        <hr>
+
+                        <h3>Data Hewan Kurban</h3>
+
+                        @if ($model->kurbanHewan->count() >= 1)
+                            <div class="text-end mb-3">
+                                <a href="{{ route('kurbanhewan.create', ['kurban_id' => $model->id]) }}"
+                                    class="btn btn-primary">Buat Baru</a>
+                            </div>
+                        @endif
+
+                        @if ($model->kurbanHewan->count() == 0)
+                            <div class="text-center">Belum ada data.
+                                <a href="{{ route('kurbanhewan.create', ['kurban_id' => $model->id]) }}">Buat Baru</a>
+                            </div>
+                        @else
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead class="text-center table-dark">
+                                        <tr>
+                                            <th width="1%">NO</th>
+                                            <th>HEWAN</th>
+                                            <th>IURAN</th>
+                                            <th>HARGA</th>
+                                            <th>BIAYA OPS</th>
+                                            <th>AKSI</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach ($model->kurbanHewan as $item)
+                                            <tr>
+                                                <td class="text-center">{{ $loop->iteration }}.</td>
+                                                <td>{{ ucwords($item->hewan) }} <strong>({{ $item->kriteria }})</strong>
+                                                </td>
+                                                <td>{{ formatRupiah($item->iuran_perorang, true) }}</td>
+                                                <td>{{ formatRupiah($item->harga, true) }}</td>
+                                                <td>{{ formatRupiah($item->biaya_operasional, true) }}</td>
+                                                <td class="text-center">
+
+                                                    <a href="{{ route('kurbanhewan.edit', [$item->id, 'kurban_id' => $item->kurban_id]) }}"
+                                                        class="btn btn-success btn-sm "><i
+                                                            class="fas fa-pencil-alt"></i></a>
+
+                                                    {!! Form::open([
+                                                        'method' => 'DELETE',
+                                                        'route' => ['kurbanhewan.destroy', [$item->id, 'kurban_id' => $item->kurban_id]],
+                                                        'style' => 'display:inline',
+                                                    ]) !!}
+
+                                                    @csrf
+
+                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus data kas ini?')"><i
+                                                            class="fas fa-trash"></i></button>
+                                                    {!! Form::close() !!}
+
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @endif
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+@endsection
