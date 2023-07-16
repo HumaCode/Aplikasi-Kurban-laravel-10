@@ -13,6 +13,12 @@ class KurbanHewan extends Model
     use HasFactory, HasCreatedBy, HasMasjid;
 
     protected $guarded = [];
+    protected $appends = ['nama_full'];
+
+    public function getNamaFullAttribute()
+    {
+        return ucwords($this->hewan) . " - {$this->kriteria} - " . formatRupiah($this->iuran_perorang) . '/orang';
+    }
 
     /**
      * Get the kurban that owns the KurbanHewan
