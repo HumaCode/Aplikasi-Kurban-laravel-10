@@ -94,9 +94,14 @@ class KurbanHewanController extends Controller
     {
         Kurban::UserMasjid()->where('id', request('kurban_id'))->firstOrFail();
 
-        $kurbanhewan->delete();
+        if ($kurbanhewan->kurbanPeserta->count() == 0) {
+            $kurbanhewan->delete();
 
-        flash('Data berhasil dihapus');
+            flash('Data berhasil dihapus')->success();
+            return back();
+        }
+
+        flash('Data gagal dihapus, karena sedang digunakan oleh peserta lain')->error();
         return back();
     }
 }

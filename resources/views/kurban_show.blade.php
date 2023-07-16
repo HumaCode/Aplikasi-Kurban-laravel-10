@@ -113,10 +113,11 @@
                                     <thead class="text-center table-dark">
                                         <tr>
                                             <th width="1%">NO</th>
-                                            <th>HEWAN</th>
-                                            <th>IURAN</th>
-                                            <th>HARGA</th>
-                                            <th>BIAYA OPS</th>
+                                            <th>NAMA</th>
+                                            <th>NO. HP</th>
+                                            <th>ALAMAT</th>
+                                            <th>JENIS HEWAN</th>
+                                            <th>STATUS PEMBAYARAN</th>
                                             <th>AKSI</th>
                                         </tr>
                                     </thead>
@@ -125,11 +126,28 @@
                                         @foreach ($model->kurbanPeserta as $item)
                                             <tr>
                                                 <td class="text-center">{{ $loop->iteration }}.</td>
-                                                <td>{{ ucwords($item->hewan) }} <strong>({{ $item->kriteria }})</strong>
+                                                <td>
+                                                    <div class="mb-1">{{ $item->peserta->nama }}</div>
+                                                    <div class="">
+                                                        <small>({{ $item->peserta->nama_tampilan }})</small>
+                                                    </div>
                                                 </td>
-                                                <td>{{ formatRupiah($item->iuran_perorang, true) }}</td>
-                                                <td>{{ formatRupiah($item->harga, true) }}</td>
-                                                <td>{{ formatRupiah($item->biaya_operasional, true) }}</td>
+                                                <td>{{ $item->peserta->nohp }}</td>
+                                                <td>{{ $item->peserta->alamat }}</td>
+                                                <td>
+                                                    <small
+                                                        class="mb-1"><strong>{{ ucwords($item->kurbanHewan->hewan) }}</strong></small>
+                                                    <br>
+                                                    <small class="mb-1">{{ $item->kurbanHewan->kriteria }}</small><br>
+                                                    <small>{{ formatRupiah($item->kurbanHewan->iuran_perorang, true) }}</small>
+                                                </td>
+                                                <td class="text-center">
+                                                    @if ($item->status_bayar == 'lunas')
+                                                        <span class="badge badge-pill badge-success">LUNAS</span>
+                                                    @else
+                                                        <span class="badge badge-pill badge-danger">BELUM LUNAS</span>
+                                                    @endif
+                                                </td>
                                                 <td class="text-center">
 
                                                     <a href="{{ route('kurbanpeserta.edit', [$item->id, 'kurban_id' => $item->kurban_id]) }}"
@@ -144,7 +162,7 @@
 
                                                     @csrf
 
-                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                    <button type="submit" class="btn btn-danger btn-sm my-2"
                                                         onclick="return confirm('Apakah Anda yakin ingin menghapus data kas ini?')"><i
                                                             class="fas fa-trash"></i></button>
                                                     {!! Form::close() !!}

@@ -71,16 +71,23 @@
                             <span class="text-danger">{{ $errors->first('status_bayar') }}</span>
                         </div>
 
-                        <div class="mb-3">
-                            {!! Form::label('total_bayar', 'Total Bayar', ['class' => 'form-label']) !!}
-                            {!! Form::text('total_bayar', null, ['class' => 'form-control rupiah']) !!}
-                            <span class="text-danger">{{ $errors->first('total_bayar') }}</span>
-                        </div>
+                        <div class="pembayaran">
+                            <h3>Data Pembayaran</h3>
+                            <div class="alert alert-secondary">
+                                Jika total bayar kosong, maka otomatis dari iuran perorang
+                            </div>
 
-                        <div class="mb-3">
-                            {!! Form::label('tanggal_bayar', 'Tanggal Bayar', ['class' => 'form-label']) !!}
-                            {!! Form::date('tanggal_bayar', $model->tanggal_bayar ?? now(), ['class' => 'form-control']) !!}
-                            <span class="text-danger">{{ $errors->first('tanggal_bayar') }}</span>
+                            <div class="mb-3">
+                                {!! Form::label('total_bayar', 'Total Bayar', ['class' => 'form-label']) !!}
+                                {!! Form::text('total_bayar', null, ['class' => 'form-control rupiah']) !!}
+                                <span class="text-danger">{{ $errors->first('total_bayar') }}</span>
+                            </div>
+
+                            <div class="mb-3">
+                                {!! Form::label('tanggal_bayar', 'Tanggal Bayar', ['class' => 'form-label']) !!}
+                                {!! Form::date('tanggal_bayar', $model->tanggal_bayar ?? now(), ['class' => 'form-control']) !!}
+                                <span class="text-danger">{{ $errors->first('tanggal_bayar') }}</span>
+                            </div>
                         </div>
 
                         {!! Form::submit('SIMPAN DATA', ['class' => 'btn btn-primary']) !!}
@@ -92,3 +99,19 @@
         </div>
     </div>
 @endsection
+
+
+@push('js')
+    <script>
+        $(document).ready(function() {
+            $('.pembayaran').hide();
+            $('#my-input').change(function(e) {
+                if ($(this).is(':checked')) {
+                    $('.pembayaran').show();
+                } else {
+                    $('.pembayaran').hide();
+                }
+            })
+        })
+    </script>
+@endpush

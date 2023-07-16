@@ -27,10 +27,6 @@ class StoreKurbanPesertaRequest extends FormRequest
                 'required',
                 Rule::exists('kurbans', 'id')->where('masjid_id', auth()->user()->masjid_id)
             ],
-            'nama'              => 'required',
-            'nama_tampilan'     => 'required',
-            'nohp'              => 'required|numeric',
-            'alamat'            => 'nullable',
             'kurban_hewan_id'   => 'nullable',
             'total_bayar'       => 'nullable',
             'tanggal_bayar'     => 'nullable',
