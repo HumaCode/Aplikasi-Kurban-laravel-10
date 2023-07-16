@@ -53,6 +53,7 @@ class KurbanPesertaController extends Controller
 
 
         $status_bayar = 'belum';
+        $tanggal_bayar = 'belum';
         if ($requestKurbanPeserta->filled('status_bayar')) {
             $status_bayar = 'lunas';
         }
@@ -93,17 +94,45 @@ class KurbanPesertaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(KurbanPeserta $kurbanPeserta)
+    public function edit(KurbanPeserta $kurbanpesertum)
     {
-        //
+        $kurbanpeserta = $kurbanpesertum;
+        // filter data
+        $kurban = Kurban::UserMasjid()->where('id', request('kurban_id'))->firstOrFail();
+
+        $data = [
+            'model'             =>  $kurbanpeserta,
+            'title'             => 'Informasi Peserta Kurban',
+            'subtitle'          => 'Pembayaran Kurban',
+            'route'             => ['kurbanpeserta.update', $kurbanpeserta->id],
+            'method'            => 'PUT',
+            'kurban'            => $kurban,
+            'listKurbanHewan'   => $kurban->kurbanHewan->pluck('nama_full', 'id'),
+        ];
+
+        return view('kurbanpeserta_edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateKurbanPesertaRequest $request, KurbanPeserta $kurbanPeserta)
+    public function update(UpdateKurbanPesertaRequest $request, $id)
     {
-        //
+
+        $model = KurbanPeserta::where('id', $id)->where('kurban_id', $request->kurban_id)->firstOrFail();
+
+        $iuranPerorang = $model->kurbanHewan->iuran_perorang;
+        $totalBayar = $request->total_bayar;
+        if ($iuranPerorang > $totalBayar) {
+            flash('Data total bayar tidak boleh kurang dari iuran perorangan')->error();
+            return back();
+        }
+
+        $model->status_bayar = 'lunas';
+        $model->update($request->validated());
+
+        flash('Data berhasil diubah')->success();
+        return back();
     }
 
     /**

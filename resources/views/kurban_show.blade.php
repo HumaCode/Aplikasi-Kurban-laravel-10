@@ -105,7 +105,8 @@
 
                         @if ($model->kurbanPeserta->count() == 0)
                             <div class="text-center">Belum ada data.
-                                <a href="{{ route('kurbanpeserta.create', ['kurban_id' => $model->id]) }}">Buat Baru</a>
+                                <a href="{{ route('kurbanpeserta.create', ['kurban_id' => $model->id]) }}">Pendaftaran
+                                    Baru</a>
                             </div>
                         @else
                             <div class="table-responsive">
@@ -133,39 +134,45 @@
                                                     </div>
                                                 </td>
                                                 <td>{{ $item->peserta->nohp }}</td>
-                                                <td>{{ $item->peserta->alamat }}</td>
+                                                <td>{{ $item->peserta->getAlamatText() }}</td>
                                                 <td>
                                                     <small
-                                                        class="mb-1"><strong>{{ ucwords($item->kurbanHewan->hewan) }}</strong></small>
+                                                        class="mb-2"><strong>{{ ucwords($item->kurbanHewan->hewan) }}</strong></small>
                                                     <br>
                                                     <small class="mb-1">{{ $item->kurbanHewan->kriteria }}</small><br>
                                                     <small>{{ formatRupiah($item->kurbanHewan->iuran_perorang, true) }}</small>
                                                 </td>
                                                 <td class="text-center">
                                                     @if ($item->status_bayar == 'lunas')
-                                                        <span class="badge badge-pill badge-success">LUNAS</span>
+                                                        <span
+                                                            class="badge badge-pill badge-success">{{ $item->getStatusText() }}</span>
                                                     @else
-                                                        <span class="badge badge-pill badge-danger">BELUM LUNAS</span>
+                                                        <span
+                                                            class="badge badge-pill badge-danger">{{ $item->getStatusText() }}</span>
                                                     @endif
                                                 </td>
                                                 <td class="text-center">
 
-                                                    <a href="{{ route('kurbanpeserta.edit', [$item->id, 'kurban_id' => $item->kurban_id]) }}"
-                                                        class="btn btn-success btn-sm "><i
-                                                            class="fas fa-pencil-alt"></i></a>
+                                                    @if ($item->status_bayar != 'lunas')
+                                                        <a href="{{ route('kurbanpeserta.edit', [$item->id, 'kurban_id' => $item->kurban_id]) }}"
+                                                            class="btn btn-success btn-sm "><i
+                                                                class="fas fa-money-bill-wave"></i></a>
 
-                                                    {!! Form::open([
-                                                        'method' => 'DELETE',
-                                                        'route' => ['kurbanpeserta.destroy', [$item->id, 'kurban_id' => $item->kurban_id]],
-                                                        'style' => 'display:inline',
-                                                    ]) !!}
+                                                        {!! Form::open([
+                                                            'method' => 'DELETE',
+                                                            'route' => ['kurbanpeserta.destroy', [$item->id, 'kurban_id' => $item->kurban_id]],
+                                                            'style' => 'display:inline',
+                                                        ]) !!}
 
-                                                    @csrf
+                                                        @csrf
 
-                                                    <button type="submit" class="btn btn-danger btn-sm my-2"
-                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus data kas ini?')"><i
-                                                            class="fas fa-trash"></i></button>
-                                                    {!! Form::close() !!}
+                                                        <button type="submit" class="btn btn-danger btn-sm my-2"
+                                                            onclick="return confirm('Apakah Anda yakin ingin menghapus data kas ini?')"><i
+                                                                class="fas fa-trash"></i></button>
+                                                        {!! Form::close() !!}
+                                                    @else
+                                                        <i class="fas fa-check-circle fa-lg text-success"></i>
+                                                    @endif
 
                                                 </td>
                                             </tr>

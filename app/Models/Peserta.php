@@ -12,4 +12,13 @@ class Peserta extends Model
     use HasFactory, HasCreatedBy, HasMasjid;
 
     protected $guarded = [];
+
+    public function getAlamatText(): String
+    {
+        if ($this->alamat != null) {
+            return $this->alamat;
+        } else {
+            return '-';
+        }
+    }
 }
