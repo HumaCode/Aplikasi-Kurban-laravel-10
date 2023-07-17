@@ -66,6 +66,11 @@ class KurbanController extends Controller
             'title'         => 'Informasi Kurban',
             'subtitle'      => 'DETAIL',
         ];
+
+        if (request('output') == 'laporan') {
+            return view('kurban_laporan', $data);
+        }
+
         return view('kurban_show', $data);
     }
 
