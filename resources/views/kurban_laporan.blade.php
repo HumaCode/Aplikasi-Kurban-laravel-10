@@ -129,3 +129,9 @@
     </div>
 </div>
 @endsection
+
+@push('js')
+<script>
+    window.print();
+</script>
+@endpush

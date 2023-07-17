@@ -32,6 +32,11 @@ class KasController extends Controller
             'totalPengeluaran'  => $kases->where('jenis', 'keluar')->sum('jumlah'),
             'saldoAkhir'        => Kas::SaldoAkhir(),
         ];
+
+        if ($request->page == 'laporan') {
+            return view('kas_laporan', $data);
+        }
+
         return view('kas_index', $data);
     }
 

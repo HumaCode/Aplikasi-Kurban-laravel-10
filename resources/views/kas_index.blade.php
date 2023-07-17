@@ -25,36 +25,37 @@
             ]) !!}
 
             <div class="col-12">
-                {{-- <label for="inlineFormInputGroupUsername">Tanggal Transaksi</label> --}}
+                <label for="tanggal_mulai">Tanggal Mulai</label>
                 <div class="input-group">
                     {!! Form::date('tanggal_mulai', request('tanggal_mulai'), [
                     'class' => 'form-control',
-                    'id' => 'inlineFormInputGroupUsername',
+                    'id' => 'tanggal_mulai',
                     ]) !!}
                 </div>
             </div>
 
             <div class="col-12">
-                {{-- <label for="inlineFormInputGroupUsername">Tanggal Transaksi</label> --}}
+                <label for="tanggal_selesai">Tanggal Selesai</label>
                 <div class="input-group">
                     {!! Form::date('tanggal_selesai', request('tanggal_selesai'), [
                     'class' => 'form-control',
-                    'id' => 'inlineFormInputGroupUsername',
+                    'id' => 'tanggal_selesai',
                     ]) !!}
                 </div>
             </div>
 
             <div class="col-12">
-                {{-- <label for="text">Keterangan Transaksi</label> --}}
+                <label for="q">Keterangan Transaksi</label>
                 {!! Form::text('q', request('q'), [
                 'class' => 'form-control',
-                'id' => 'text',
+                'id' => 'q',
                 'placeholder' => 'Keterangan Transaksi',
                 ]) !!}
             </div>
 
-            <div class="col-12 ">
-                <button type="submit" class="btn btn-primary">Cari</button>
+            <div class="bd-highlight ">
+                <button type="submit" class="btn btn-primary mt-4">Cari</button>
+                <button type="button" class="btn btn-secondary mt-4" id="cetak">Cetak Data</button>
             </div>
             {!! Form::close() !!}
 
@@ -117,7 +118,7 @@
 
                             <tfoot>
                                 <tr class="fw-bold">
-                                    <td colspan="5">TOTAL</td>
+                                    <td colspan="4">TOTAL</td>
                                     <td class="text-end">
                                         <small class="font-weight-bold">{{ formatRupiah($totalPemasukan, true)
                                             }}</small>
@@ -148,4 +149,23 @@
         </div>
     </div>
 </div>
+
+
+
 @endsection
+
+@push('js')
+<script>
+    $(document).ready(function(){
+        $("#cetak").click(function(e) {
+            var tanggalMulai = $("#tanggal_mulai").val();
+            var tanggalSelesai = $("#tanggal_selesai").val();
+            var q = $("#q").val();
+
+            params = "?page=laporan&tanggal_mulai=" + tanggalMulai + "&tanggal_selesai=" + tanggalSelesai + "&q=" + q;
+
+            window.open("/kas" + params, "_blank");
+        });
+    });
+</script>
+@endpush
