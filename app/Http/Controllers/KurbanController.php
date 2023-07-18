@@ -68,6 +68,11 @@ class KurbanController extends Controller
         ];
 
         if (request('output') == 'laporan') {
+
+            $data = [
+                'title'         => 'Laporan Kurban',
+            ];
+
             return view('kurban_laporan', $data);
         }
 

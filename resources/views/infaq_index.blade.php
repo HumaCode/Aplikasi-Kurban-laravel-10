@@ -15,7 +15,7 @@
         <div class="col-md-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2>{{ strtoupper($title) }}</h2>
-                <a href="{{ route('kas.create') }}" class="btn btn-primary">Tambah Kas</a>
+                <a href="{{ route('infaq.create') }}" class="btn btn-primary">Tambah Data Infaq</a>
             </div>
 
             {!! Form::open([
@@ -59,7 +59,7 @@
             </div>
             {!! Form::close() !!}
 
-            @if (count($kases) > 0)
+            @if (count($infaq) > 0)
             <div class="card">
                 <div class="card-body">
 
@@ -69,38 +69,51 @@
                                 <tr>
                                     <th>No</th>
                                     <th width="10%">Tanggal</th>
-                                    <th>Dibuat</th>
+                                    <th>Diinput</th>
+                                    <th>Sumber</th>
+                                    <th>Jenis</th>
                                     <th>Keterangan</th>
-                                    <th>Pemasukan</th>
-                                    <th>Pengeluaran</th>
+                                    <th>Jumlah</th>
                                     <th width="5%">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($kases as $item)
+                                @foreach ($infaq as $item)
                                 <tr>
                                     <td class="text-center"><small>{{ $loop->iteration }}.</small></td>
-                                    <td><small>{{ $item->tanggal->translatedFormat('d-m-Y') }}</small></td>
+                                    <td><small>{{ $item->created_at->translatedFormat('d-m-Y') }}</small></td>
                                     <td><small>{{ $item->createdBy->name }}</small></td>
                                     <td>
-                                        <small>{{ $item->keterangan }}</small>
+                                        <small>{{ ucwords($item->sumber) }}</small>
                                     </td>
-                                    <td class="text-end">
-                                        <small>{{ $item->jenis == 'masuk' ? formatRupiah($item->jumlah, true) : '-'
-                                            }}</small>
+                                    <td>
+                                        <small>{{ ucwords($item->jenis) }}</small>
                                     </td>
-                                    <td class="text-end">
-                                        <small>{{ $item->jenis == 'keluar' ? formatRupiah($item->jumlah, true) : '-'
-                                            }}</small>
+                                    <td>
+                                        <small>{{ $item->atas_nama }}</small>
                                     </td>
+                                    <td>
+
+                                        @if ($item->jenis == 'uang')
+                                        <div class="text-end">
+                                            <small>{{ formatRupiah($item->jumlah, true) }}</small>
+                                        </div>
+                                        @else
+                                        <small>{{ $item->jumlah }} {{ ucwords($item->satuan) }}</small>
+
+                                        @endif
+
+                                    </td>
+
+
                                     <td class="text-center">
 
-                                        <a href="{{ route('kas.edit', $item->id) }}"
+                                        <a href="{{ route('infaq.edit', $item->id) }}"
                                             class="btn btn-success btn-sm my-2"><i class="fas fa-pencil-alt"></i></a>
 
                                         {!! Form::open([
                                         'method' => 'DELETE',
-                                        'route' => ['kas.destroy', $item->id],
+                                        'route' => ['infaq.destroy', $item->id],
                                         'style' => 'display:inline',
                                         ]) !!}
 
@@ -115,34 +128,16 @@
                                 </tr>
                                 @endforeach
                             </tbody>
-
-                            <tfoot>
-                                <tr class="fw-bold">
-                                    <td colspan="4">TOTAL</td>
-                                    <td class="text-end">
-                                        <small class="font-weight-bold">{{ formatRupiah($totalPemasukan, true)
-                                            }}</small>
-                                    </td>
-                                    <td class="text-end">
-                                        <small class="font-weight-bold">{{ formatRupiah($totalPengeluaran, true)
-                                            }}</small>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
 
-                    <div class="alert alert-info text-end">
-                        <strong class="fs-3">Saldo Akhir : {{ formatRupiah($saldoAkhir, true) }}</strong>
-                    </div>
 
-                    {{ $kases->links('pagination::bootstrap-5') }}
+                    {{ $infaq->links('pagination::bootstrap-5') }}
                 </div>
             </div>
             @else
             <div class="text-center">
-                <h3 class=" mt-3">Tidak ada data kas.</h3>
+                <h3 class=" mt-3">Tidak ada data infaq.</h3>
                 <img src="{{ asset('images/empty.gif') }}" class="lingkaran" alt="">
             </div>
             @endif

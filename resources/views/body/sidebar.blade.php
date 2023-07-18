@@ -21,6 +21,12 @@
                 </a>
             </li>
 
+            <li class="sidebar-item {{ \Route::is('infaq.*') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('infaq.index') }}">
+                    <i class="align-middle" data-feather="user"></i> <span class="align-middle">Infaq Masjid</span>
+                </a>
+            </li>
+
             <li class="sidebar-item {{ \Route::is('kas.*') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('kas.index') }}">
                     <i class="align-middle" data-feather="user"></i> <span class="align-middle">Kas Masjid</span>

@@ -24,7 +24,7 @@ class KasController extends Controller
             $query = $query->whereDate('tanggal', '<=', $request->tanggal_selesai);
         }
 
-        $kases = $query->latest()->paginate(50);
+        $kases = $query->latest()->paginate(10);
         $data = [
             'kases'             => $kases,
             'title'             => 'Data Kas',
@@ -34,7 +34,16 @@ class KasController extends Controller
         ];
 
         if ($request->page == 'laporan') {
-            return view('kas_laporan', $data);
+
+            $data2 = [
+                'title'             => 'Laporan Kas',
+                'kases'             => Kas::UserMasjid()->orderBy('id', 'desc')->get(),
+                'totalPemasukan'    => Kas::UserMasjid()->where('jenis', 'masuk')->sum('jumlah'),
+                'totalPengeluaran'  => Kas::UserMasjid()->where('jenis', 'keluar')->sum('jumlah'),
+                'saldoAkhir'        => Kas::SaldoAkhir(),
+            ];
+
+            return view('kas_laporan', $data2);
         }
 
         return view('kas_index', $data);

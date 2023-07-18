@@ -69,7 +69,6 @@
                     <strong class="fs-3">Saldo Akhir : {{ formatRupiah($saldoAkhir, true) }}</strong>
                 </div>
 
-                {{ $kases->links() }}
             </div>
         </div>
         @else
@@ -80,7 +79,10 @@
         @endif
     </div>
 </div>
-
-
-
 @endsection
+
+@push('js')
+<script>
+    window.print();
+</script>
+@endpush
