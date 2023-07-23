@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Infaq;
+use App\Models\Kas;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,7 +26,10 @@ class HomeController extends Controller
     public function index()
     {
         $data = [
-            'title' => 'Beranda',
+            'title'         => 'Dashboard',
+            'saldoAkhir'    => Kas::saldoAkhir(),
+            'totalInfaq'    => Infaq::userMasjid()->whereDate('created_at', now()->format('Y-m-d'))->sum('jumlah'),
+            'kas'           => Kas::userMasjid()->latest()->take(10)->get(),
         ];
         return view('home', $data);
     }
