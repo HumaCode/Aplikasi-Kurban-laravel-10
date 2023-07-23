@@ -76,27 +76,13 @@ class InfaqController extends Controller
     public function store(StoreInfaqRequest $request)
     {
         $requestData = $request->validated();
+        $requestData['atas_nama'] = $requestData['atas_nama'] ?? 'Hamba Allah';
 
         try {
             DB::beginTransaction();
 
-            $requestData['atas_nama'] = $requestData['atas_nama'] ?? 'Hamba Allah';
-
             // input ke tabel infaq
-            $infaq = Infaq::create($requestData);
-
-            if ($infaq->jenis == 'uang') {
-                // input ke tabel kas
-                $kas = new Kas();
-                $kas->infaq_id      = $infaq->id;
-                $kas->masjid_id     = $request->user()->masjid_id;
-                $kas->tanggal       = $infaq->created_at;
-                $kas->kategori      = 'Infaq ' . ucwords($infaq->sumber);
-                $kas->keterangan    = 'Infaq ' . ucwords($infaq->sumber) . ' dari ' . $infaq->atas_nama;
-                $kas->jenis         = 'masuk';
-                $kas->jumlah        = $infaq->jumlah;
-                $kas->save();
-            }
+            Infaq::create($requestData);
 
             DB::commit();
         } catch (\Throwable $th) {
@@ -105,8 +91,6 @@ class InfaqController extends Controller
             flash('Infaq gagal disimpan. error : ' . $th->getMessage())->error();
             return back();
         }
-
-
 
         flash('Infaq berhasil disimpan.')->success();
         return redirect()->route('infaq.index');
@@ -142,15 +126,16 @@ class InfaqController extends Controller
     {
         $requestData = $request->validated();
 
-        DB::beginTransaction();
+        try {
+            DB::beginTransaction();
+            $infaq->update($requestData);
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollback();
 
-
-        $infaq->update($requestData);
-        $kas = $infaq->kas;
-        $kas->jumlah = $infaq->jumlah;
-        $kas->save();
-
-        DB::commit();
+            flash('Infaq gagal disimpan. error : ' . $th->getMessage())->error();
+            return back();
+        }
 
         flash('Infaq berhasil diubah.')->success();
         return redirect()->route('infaq.index');
@@ -161,13 +146,16 @@ class InfaqController extends Controller
      */
     public function destroy(Infaq $infaq)
     {
-        // dd($infaq->kas);
+        try {
+            DB::beginTransaction();
+            $infaq->delete();
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollback();
 
-        if ($infaq->kas != null) {
-            $infaq->kas->delete();
+            flash('Infaq gagal dihapus. error : ' . $th->getMessage())->error();
+            return back();
         }
-
-        $infaq->delete();
 
         flash('Data infaq berhasil dihapus.')->success();
         return back();

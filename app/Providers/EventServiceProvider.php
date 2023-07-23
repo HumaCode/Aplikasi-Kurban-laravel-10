@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Infaq;
 use App\Models\Kas;
+use App\Observers\InfaqObserver;
 use App\Observers\KasObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -36,6 +38,7 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $observers = [
         Kas::class => [KasObserver::class],
+        Infaq::class => [InfaqObserver::class],
     ];
 
     /**
