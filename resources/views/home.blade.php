@@ -1,5 +1,11 @@
 @extends('layouts.app_adminkit')
 
+@push('js')
+    <script src="{{ $chart->cdn() }}"></script>
+
+    {{ $chart->script() }}
+@endpush
+
 @section('content')
     <div class="container-fluid p-0">
         <div class="container-fluid p-0">
@@ -7,7 +13,7 @@
             <h1 class="h3 mb-3">{{ strtoupper($title) }}</h1>
 
             <div class="row">
-                <div class="col-xl-6 col-xxl-5 d-flex">
+                <div class="col-xl-5 col-xxl-5 d-flex">
                     <div class="w-100">
                         <div class="row">
                             <div class="col-sm-12">
@@ -58,17 +64,15 @@
                     </div>
                 </div>
 
-                <div class="col-xl-6 col-xxl-7">
+                <div class="col-xl-7 col-xxl-7">
                     <div class="card flex-fill w-100">
-                        <div class="card-header">
 
-                            <h5 class="card-title mb-0">Grafik Infaq Bulanan</h5>
-                        </div>
                         <div class="card-body py-3">
                             <div class="chart chart-sm">
-                                <canvas id="chartjs-dashboard-line"></canvas>
+                                {!! $chart->container() !!}
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
