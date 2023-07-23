@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
 return [
-    'table-style' => 'table table-striped table-hover table-sm',
+    'table-style' => 'table table-bordered table-hover table-sm',
+    'thead-style' => 'table-info',
 
     /*
     |--------------------------------------------------------------------------

@@ -23,7 +23,7 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="{{ config('app.table-style') }}">
-                                    <thead class="text-center table-info">
+                                    <thead class="text-center {{ config('app.thead-style') }}">
                                         <tr>
                                             <th width="5%">No</th>
                                             <th width="40%">Bank</th>
