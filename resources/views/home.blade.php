@@ -1,9 +1,64 @@
 @extends('layouts.app_adminkit')
 
 @push('js')
-    <script src="{{ $chart->cdn() }}"></script>
+    {{-- larapex --}}
+    {{-- <script src="{{ $chart->cdn() }}"></script>
 
-    {{ $chart->script() }}
+    {{ $chart->script() }} --}}
+
+    {{-- apexchart --}}
+    <script src="{{ asset('achart') }}/dist/apexcharts.min.js"></script>
+
+    <link href="{{ asset('achart') }}/dist/apexcharts.css" rel="stylesheet">
+
+
+    <script>
+        var options = {
+            series: [{
+                name: "Total Infaq",
+                data: @json($dataTotalInfaq)
+            }],
+            chart: {
+                height: 285,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'straight'
+            },
+            title: {
+                text: 'Data Infaq Bulanan',
+                align: 'left'
+            },
+            grid: {
+                row: {
+                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
+            },
+            xaxis: {
+                categories: @json($dataBulan),
+            },
+            yaxis: {
+                labels: {
+                    formatter: function(value) {
+                        return value.toLocaleString("id-ID", {
+                            style: "currency",
+                            currency: "IDR",
+                        })
+                    }
+                },
+            },
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+    </script>
 @endpush
 
 @section('content')
@@ -69,7 +124,9 @@
 
                         <div class="card-body py-3">
                             <div class="chart chart-sm">
-                                {!! $chart->container() !!}
+                                {{-- {!! $chart->container() !!} --}}
+
+                                <div id="chart"></div>
                             </div>
                         </div>
 
