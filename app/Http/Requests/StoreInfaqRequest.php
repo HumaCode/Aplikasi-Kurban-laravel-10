@@ -22,11 +22,12 @@ class StoreInfaqRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sumber'    => 'required',
-            'atas_nama' => 'nullable',
-            'jenis'     => 'required',
-            'satuan'    => 'required',
-            'jumlah'    => 'required|numeric',
+            'created_at'    => 'required|date',
+            'sumber'        => 'required',
+            'atas_nama'     => 'nullable',
+            'jenis'         => 'required',
+            'satuan'        => 'required',
+            'jumlah'        => 'required|numeric',
         ];
     }
 
