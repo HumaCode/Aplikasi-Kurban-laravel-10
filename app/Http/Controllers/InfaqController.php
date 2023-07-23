@@ -77,27 +77,36 @@ class InfaqController extends Controller
     {
         $requestData = $request->validated();
 
-        DB::beginTransaction();
+        try {
+            DB::beginTransaction();
 
-        $requestData['atas_nama'] = $requestData['atas_nama'] ?? 'Hamba Allah';
+            $requestData['atas_nama'] = $requestData['atas_nama'] ?? 'Hamba Allah';
 
-        // input ke tabel infaq
-        $infaq = Infaq::create($requestData);
+            // input ke tabel infaq
+            $infaq = Infaq::create($requestData);
 
-        if ($infaq->jenis == 'uang') {
-            // input ke tabel kas
-            $kas = new Kas();
-            $kas->infaq_id      = $infaq->id;
-            $kas->masjid_id     = $request->user()->masjid_id;
-            $kas->tanggal       = $infaq->created_at;
-            $kas->kategori      = 'Infaq ' . ucwords($infaq->sumber);
-            $kas->keterangan    = 'Infaq ' . ucwords($infaq->sumber) . ' dari ' . $infaq->atas_nama;
-            $kas->jenis         = 'masuk';
-            $kas->jumlah        = $infaq->jumlah;
-            $kas->save();
+            if ($infaq->jenis == 'uang') {
+                // input ke tabel kas
+                $kas = new Kas();
+                $kas->infaq_id      = $infaq->id;
+                $kas->masjid_id     = $request->user()->masjid_id;
+                $kas->tanggal       = $infaq->created_at;
+                $kas->kategori      = 'Infaq ' . ucwords($infaq->sumber);
+                $kas->keterangan    = 'Infaq ' . ucwords($infaq->sumber) . ' dari ' . $infaq->atas_nama;
+                $kas->jenis         = 'masuk';
+                $kas->jumlah        = $infaq->jumlah;
+                $kas->save();
+            }
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollback();
+
+            flash('Infaq gagal disimpan. error : ' . $th->getMessage())->error();
+            return back();
         }
 
-        DB::commit();
+
 
         flash('Infaq berhasil disimpan.')->success();
         return redirect()->route('infaq.index');
