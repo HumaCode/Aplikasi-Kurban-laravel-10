@@ -11,7 +11,7 @@ class UpdateInfaqRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,21 @@ class UpdateInfaqRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'sumber'    => 'required',
+            'atas_nama' => 'nullable',
+            'jenis'     => 'required',
+            'satuan'    => 'required',
+            'jumlah'    => 'required|numeric',
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'jumlah'             => str_replace('.', '', $this->jumlah),
+        ]);
     }
 }

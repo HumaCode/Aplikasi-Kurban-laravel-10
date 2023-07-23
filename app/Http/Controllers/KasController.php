@@ -152,9 +152,15 @@ class KasController extends Controller
         return redirect()->route('kas.index');
     }
 
-    public function destroy($id)
+    public function destroy(Kas $ka)
     {
-        $kas            = Kas::userMasjid()->findOrFail($id);
+        $kas            = $ka;
+
+        if ($kas->infaq_id != null) {
+            flash('Kas gagal dihapus. Silahkan hapus data melalui data infaq')->error();
+            return back();
+        }
+
         $saldoAkhir     = Kas::SaldoAkhir();
         if ($kas->jenis == 'masuk') {
             $saldoAkhir -= $kas->jumlah;
