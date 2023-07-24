@@ -13,6 +13,7 @@ use App\Http\Controllers\MasjidController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\UserProfilController;
+use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\EnsureDataMasjidCompleted;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,9 +34,11 @@ Route::get('logout-user', function () {
     return redirect('/');
 })->name('logout-user');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcomelte');
+// });
+
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 Auth::routes();
 
