@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Infaq;
 use App\Models\Kas;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -124,6 +125,11 @@ class KasController extends Controller
         $requestData['jumlah'] = $jumlah;
         $kas->fill($requestData);
         $kas->save();
+
+        $infaq_id = $ka->infaq->id;
+        $infaq = Infaq::findOrFail($infaq_id);
+        $infaq->jumlah = $requestData['jumlah'] = $jumlah;
+        $infaq->save();
 
         flash('Kas berhasil diubah.')->success();
         return redirect()->route('kas.index');
