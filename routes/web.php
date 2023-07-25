@@ -44,9 +44,14 @@ Route::get('data-masjid/{slug}', [DataMasjidController::class, 'show'])->name('d
 Route::get('data-masjid/{slugMasjid}/profil/{slugProfil}', [DataMasjidController::class, 'profil'])->name('data_masjid.profil');
 Route::get('data-masjid/{slugMasjid}/informasi/{slugInformasi}', [DataMasjidController::class, 'informasi'])->name('data_masjid.informasi');
 
+
+Route::get('verified', [WelcomeController::class, 'konfirm'])->name('verification.notice')->middleware('auth');
+Route::post('konfirm_wa', [WelcomeController::class, 'konfirm_wa'])->name('tanya')->middleware('auth');
+
+
 Auth::routes();
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('masjid', MasjidController::class);
 
     Route::middleware(EnsureDataMasjidCompleted::class)->group(function () {

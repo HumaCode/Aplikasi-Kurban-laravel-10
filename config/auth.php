@@ -18,6 +18,9 @@ return [
         'passwords' => 'users',
     ],
 
+    'verification' => true,
+
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Guards

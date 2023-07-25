@@ -190,7 +190,7 @@
                         </div>
                         <div class="card-body d-flex w-100">
                             <div class="align-self-center chart chart-lg">
-                                <canvas id="chartjs-dashboard-bar"></canvas>
+                                <div id="chart2"></div>
                             </div>
                         </div>
                     </div>
