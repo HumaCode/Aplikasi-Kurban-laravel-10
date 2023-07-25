@@ -9,8 +9,11 @@ class DataMasjidController extends Controller
 {
     public function show($slug)
     {
+        $masjid = Masjid::where('slug', $slug)->firstOrFail();
+
         $data = [
-            'masjid' => Masjid::where('slug', $slug)->firstOrFail(),
+            'masjid'    => $masjid,
+            'kas'       => $masjid->kas->sortDesc(),
         ];
 
         return view('data_masjid_show', $data);
