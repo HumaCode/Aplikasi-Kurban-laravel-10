@@ -50,6 +50,78 @@
                         <li class="nav-item">
                             <a href="{{ route('welcome') }}" class="nav-link">Beranda</a>
                         </li>
+
+                        @isset($masjid)
+                            @if ($masjid->profils->count() > 0)
+                                <li class="nav-item dropdown">
+                                    <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false" class="nav-link dropdown-toggle">Profil</a>
+                                    <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                                        @forelse ($masjid->profils as $itemProfil)
+                                            <li>
+                                                <a href="{{ route('data_masjid.profil', [$masjid->slug, $itemProfil->slug]) }}"
+                                                    class="dropdown-item">{{ $itemProfil->judul }}</a>
+                                            </li>
+                                        @empty
+                                            <li>
+                                                <span class="dropdown-item text-danger"><strong>Belum Ada
+                                                        Data</strong></span>
+                                            </li>
+                                        @endforelse
+                                    </ul>
+                                </li>
+
+                                {{-- @foreach ($masjid->kategori as $item)
+                                <li class="nav-item dropdown">
+                                    <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false" class="nav-link dropdown-toggle">{{ $item->nama }}</a>
+                                    <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                                        @foreach ($item->informasi as $itemInformasi)
+                                            <li><a href="#" class="dropdown-item">{{ $itemInformasi->judul }}</a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                            @endforeach --}}
+
+                                <li class="nav-item dropdown">
+
+                                    <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false" class="nav-link dropdown-toggle">Kegiatan Masjid</a>
+                                    <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+
+                                        <!-- Level two dropdown-->
+                                        @foreach ($masjid->kategori as $item)
+                                            <li class="dropdown-submenu dropdown-hover">
+                                                <a id="{{ $item->id }}" href="#" role="button"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                                    class="dropdown-item dropdown-toggle">{{ $item->nama }}</a>
+                                                <ul aria-labelledby="{{ $item->id }}"
+                                                    class="dropdown-menu border-0 shadow">
+                                                    @forelse ($item->informasi as $itemInformasi)
+                                                        <li>
+                                                            <a tabindex="-1"
+                                                                href="{{ route('data_masjid.informasi', [$masjid->slug, $itemInformasi->slug]) }}"
+                                                                class="dropdown-item">{{ $itemInformasi->judul }}</a>
+                                                        </li>
+                                                    @empty
+                                                        <li>
+                                                            <span tabindex="-1" href="#"
+                                                                class="dropdown-item text-danger"><strong>Belum Ada
+                                                                    Data</strong></span>
+                                                        </li>
+                                                    @endforelse
+                                                </ul>
+
+                                            </li>
+                                        @endforeach
+                                        <!-- End Level two -->
+                                    </ul>
+                                </li>
+                            @endif
+
+                        @endisset
+
                         <li class="nav-item">
                             <a href="{{ route('register') }}" class="nav-link">Daftar</a>
                         </li>

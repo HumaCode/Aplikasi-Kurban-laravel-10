@@ -10,7 +10,7 @@ class WelcomeController extends Controller
     public function index()
     {
         $data = [
-            'masjid' => Masjid::latest()->get(),
+            'masjids' => Masjid::latest()->get(),
         ];
 
         return view('welcome_index', $data);

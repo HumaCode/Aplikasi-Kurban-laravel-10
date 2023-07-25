@@ -36,7 +36,13 @@
                                         <tr>
                                             <td class="text-center">{{ $loop->iteration }}.</td>
                                             <td>{{ $item->nama }}</td>
-                                            <td>{{ $item->keterangan }}</td>
+                                            <td>
+                                                @if ($item->keterangan == null)
+                                                    <div class="text-center">-</div>
+                                                @else
+                                                    {{ $item->keterangan }}
+                                                @endif
+                                            </td>
                                             <td>{{ $item->createdBy->name }}</td>
                                             <td class="text-center">
 

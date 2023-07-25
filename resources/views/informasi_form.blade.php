@@ -18,12 +18,12 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div>
-                                    {!! Form::label('kategori', 'Kategori', ['class' => 'form-label']) !!}
-                                    {!! Form::select('kategori', $listKategori, null, [
+                                    {!! Form::label('kategori_id', 'Kategori', ['class' => 'form-label']) !!}
+                                    {!! Form::select('kategori_id', $listKategori, null, [
                                         'class' => 'form-control',
                                         'placeholder' => '-- Pilih --',
                                     ]) !!}
-                                    <span class="text-danger">{{ $errors->first('kategori') }}</span>
+                                    <span class="text-danger">{{ $errors->first('kategori_id') }}</span>
                                 </div>
                             </div>
                             <div class="col-md-6">

@@ -16,7 +16,7 @@
                                             style="opacity: .8">
                                     </div>
                                     <div class="col-sm-8 text-center">
-                                        <p class="mt-3">{{ config('app.name') }}</p>
+                                        <p class="mt-3"><strong>Masjid {{ ucwords($masjid->nama) }}</strong></p>
                                         <small class="">Aplikasi Administrasi Keuangan Masjid</small>
                                     </div>
                                 </div>
@@ -29,30 +29,11 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title m-0">MASJID TERDAFTAR</h5>
+                            <h5 class="card-title m-0">DETAIL MASJID</h5>
                         </div>
                         <div class="card-body">
 
-                            @foreach ($masjids as $item)
-                                <div class="card mb-3">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-1 text-center">
-                                            <img src="{{ asset('images') }}/logo2.gif" alt="..." width="100">
-                                        </div>
-                                        <div class="col-md-11">
-                                            <div class="card-body">
-                                                <h5 class="card-title">
-                                                    <a href="{{ route('data_masjid.show', $item->slug) }}">
-                                                        <strong>Masjid
-                                                            {{ ucwords($item->nama) }}</strong>
-                                                    </a>
-                                                </h5>
-                                                <p class="card-text">{{ $item->alamat }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
+
 
 
                         </div>

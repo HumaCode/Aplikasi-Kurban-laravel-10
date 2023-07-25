@@ -99,9 +99,14 @@ class KategoriController extends Controller
      */
     public function destroy(Kategori $kategori)
     {
-        // $kategori->delete();
+        if ($kategori->informasi->count() >= 1) {
+            flash('Data gagal dihapus, karena data sedang di gunakan di tabel lain')->error();
+            return back();
+        }
 
-        // flash('Data berhasil dihapus');
-        // return back();
+        $kategori->delete();
+
+        flash('Data berhasil dihapus');
+        return back();
     }
 }

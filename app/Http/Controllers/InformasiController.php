@@ -46,9 +46,9 @@ class InformasiController extends Controller
     public function store(Request $request)
     {
         $requestData = $request->validate([
-            'kategori'      => 'required',
-            'judul'         => 'required',
-            'konten'        => 'required',
+            'kategori_id'       => 'required',
+            'judul'             => 'required',
+            'konten'            => 'required',
         ]);
 
         Informasi::create($requestData);
@@ -93,9 +93,9 @@ class InformasiController extends Controller
     public function update(Request $request, Informasi $informasi)
     {
         $requestData = $request->validate([
-            'kategori'  => 'required',
-            'judul'     => 'required',
-            'konten'    => 'required',
+            'kategori_id'   => 'required',
+            'judul'         => 'required',
+            'konten'        => 'required',
         ]);
 
         $informasi->update($requestData);

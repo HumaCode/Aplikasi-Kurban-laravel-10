@@ -137,7 +137,7 @@ class KasController extends Controller
 
     public function destroy(Kas $ka)
     {
-        $kas            = $ka;
+        $kas = $ka;
 
         if ($kas->infaq_id != null) {
             flash('Kas gagal dihapus. Silahkan hapus data melalui data infaq')->error();
