@@ -13,6 +13,6 @@ class WelcomeController extends Controller
             'masjid' => Masjid::latest()->get(),
         ];
 
-        return view('welcomelte', $data);
+        return view('welcome_index', $data);
     }
 }
