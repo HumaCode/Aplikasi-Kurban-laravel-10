@@ -45,7 +45,9 @@ Route::get('data-masjid/{slugMasjid}/profil/{slugProfil}', [DataMasjidController
 Route::get('data-masjid/{slugMasjid}/informasi/{slugInformasi}', [DataMasjidController::class, 'informasi'])->name('data_masjid.informasi');
 
 
-Route::get('verified', [WelcomeController::class, 'konfirm'])->name('verification.notice')->middleware('auth');
+Route::get('verified', [WelcomeController::class, 'konfirm'])->name('verification.verify')->middleware('auth');
+Route::get('verified2', [WelcomeController::class, 'konfirm'])->name('user_konfirm')->middleware('auth');
+Route::get('verified3', [WelcomeController::class, 'konfirm'])->name('verification.notice')->middleware('auth');
 Route::post('konfirm_wa', [WelcomeController::class, 'konfirm_wa'])->name('tanya')->middleware('auth');
 
 

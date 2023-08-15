@@ -18,7 +18,7 @@ return [
         'passwords' => 'users',
     ],
 
-    'verification' => true,
+    // 'verification' => true,
 
 
     /*
